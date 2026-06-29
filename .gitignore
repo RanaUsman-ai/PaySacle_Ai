@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.agents/
+.gemini/
+Cwd/
+validate_app.py
+check_notebook.py
+inspect_model.py
+check_pickle_files.py
+extract_training.py

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayScale AI - Employee Salary Prediction</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i data-lucide="trending-up" class="brand-icon"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>PayScale <span>AI</span></h2>
+                    <p>Decision Tree Engine</p>
+                </div>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#dashboard" class="nav-link active" data-target="dashboard">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#predictor" class="nav-link" data-target="predictor">
+                    <i data-lucide="calculator"></i>
+                    <span>Predictor</span>
+                </a>
+                <a href="#insights" class="nav-link" data-target="insights">
+                    <i data-lucide="bar-chart-3"></i>
+                    <span>Model Insights</span>
+                </a>
+                <a href="#explorer" class="nav-link" data-target="explorer">
+                    <i data-lucide="database"></i>
+                    <span>Data Explorer</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="theme-toggle-container">
+                    <span class="theme-label">Dark Mode</span>
+                    <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                        <div class="toggle-slider"></div>
+                    </button>
+                </div>
+                <div class="user-profile">
+                    <div class="avatar">DT</div>
+                    <div class="user-info">
+                        <h4>Admin Panel</h4>
+                        <p>Data Scientist</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="app-header">
+                <div class="header-title">
+                    <h1 id="pageTitle">Dashboard Overview</h1>
+                    <p id="pageSubTitle">Real-time salary analytics and model predictions.</p>
+                </div>
+                <div class="header-actions">
+                    <div class="date-badge">
+                        <i data-lucide="calendar" class="icon-sm"></i>
+                        <span id="currentDate">June 29, 2026</span>
+                    </div>
+                    <div class="status-badge">
+                        <span class="pulse-dot"></span>
+                        <span>Model Active</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <!-- ================= DASHBOARD TAB ================= -->
+                <section id="dashboardPanel" class="tab-panel active">
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <span>Total Employees</span>
+                                <div class="stat-icon icon-blue">
+                                    <i data-lucide="users"></i>
+                                </div>
+                            </div>
+                            <h2 class="stat-value" id="statTotalRecords">324</h2>
+                            <p class="stat-desc">Cleaned and preprocessed records</p>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <span>Average Annual Salary</span>
+                                <div class="stat-icon icon-emerald">
+                                    <i data-lucide="dollar-sign"></i>
+                                </div>
+                            </div>
+                            <h2 class="stat-value" id="statAvgSalary">$100,562</h2>
+                            <p class="stat-desc">Across all industries and positions</p>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <span>Max Salary Recorded</span>
+                                <div class="stat-icon icon-purple">
+                                    <i data-lucide="award"></i>
+                                </div>
+                            </div>
+                            <h2 class="stat-value" id="statMaxSalary">$250,000</h2>
+                            <p class="stat-desc">Peak executive compensations</p>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <span>Model Accuracy (R²)</span>
+                                <div class="stat-icon icon-amber">
+                                    <i data-lucide="cpu"></i>
+                                </div>
+                            </div>
+                            <h2 class="stat-value">91.8%</h2>
+                            <p class="stat-desc">Decision Tree Regressor</p>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Layout: Interactive Insights Preview -->
+                    <div class="dashboard-layout">
+                        <div class="layout-main">
+                            <div class="glass-card chart-card">
+                                <div class="card-header">
+                                    <h3>Salary Factors Impact</h3>
+                                    <span class="badge">Model Output</span>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="dashboardImportanceChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="layout-side">
+                            <div class="glass-card welcome-card">
+                                <div class="gradient-bg"></div>
+                                <div class="welcome-content">
+                                    <h3>Welcome to PayScale AI</h3>
+                                    <p>Predict salary based on Age, Gender, Education Level, Job Title, and Years of Experience using a Decision Tree model trained on real-world employee statistics.</p>
+                                    <button class="btn btn-primary" onclick="switchToTab('predictor')">
+                                        <span>Start Prediction</span>
+                                        <i data-lucide="arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PREDICTOR TAB ================= -->
+                <section id="predictorPanel" class="tab-panel">
+                    <div class="predictor-grid">
+                        <!-- Form Column -->
+                        <div class="glass-card predictor-form-card">
+                            <div class="card-header">
+                                <h3>Salary Predictor</h3>
+                                <p>Fill in the employee attributes below to predict the annual salary.</p>
+                            </div>
+                            
+                            <form id="predictionForm" class="predictor-form">
+                                <div class="form-row">
+                                    <!-- Age Input -->
+                                    <div class="form-group">
+                                        <label for="ageInput">Age (Years)</label>
+                                        <div class="input-wrapper">
+                                            <i data-lucide="user" class="input-icon"></i>
+                                            <input type="number" id="ageInput" min="20" max="65" value="30" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Gender Input -->
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                        <div class="gender-radio-group">
+                                            <label class="gender-radio-label">
+                                                <input type="radio" name="gender" value="Male" checked>
+                                                <span class="gender-custom-radio">Male</span>
+                                            </label>
+                                            <label class="gender-radio-label">
+                                                <input type="radio" name="gender" value="Female">
+                                                <span class="gender-custom-radio">Female</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <!-- Education Level -->
+                                    <div class="form-group">
+                                        <label for="educationSelect">Education Level</label>
+                                        <div class="input-wrapper">
+                                            <i data-lucide="graduation-cap" class="input-icon"></i>
+                                            <select id="educationSelect" required>
+                                                <!-- Dynamic Content -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Experience -->
+                                    <div class="form-group">
+                                        <label for="experienceRange">Years of Experience: <span id="experienceValue">5</span> yrs</label>
+                                        <div class="range-wrapper">
+                                            <input type="range" id="experienceRange" min="0" max="25" step="0.5" value="5">
+                                            <div class="range-ticks">
+                                                <span>0</span>
+                                                <span>5</span>
+                                                <span>10</span>
+                                                <span>15</span>
+                                                <span>20</span>
+                                                <span>25+</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Job Title Autocomplete -->
+                                <div class="form-group autocomplete-group">
+                                    <label for="jobTitleInput">Job Title</label>
+                                    <div class="input-wrapper">
+                                        <i data-lucide="briefcase" class="input-icon"></i>
+                                        <input type="text" id="jobTitleInput" placeholder="Type to search job title (e.g. Data Scientist)..." autocomplete="off" required>
+                                        <button type="button" class="clear-input-btn" id="clearJobBtn" style="display:none;">
+                                            <i data-lucide="x"></i>
+                                        </button>
+                                    </div>
+                                    <div id="autocompleteList" class="autocomplete-items"></div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-submit" id="predictBtn">
+                                    <span>Calculate Prediction</span>
+                                    <i data-lucide="sparkles" class="btn-spinner-icon"></i>
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Prediction Result Column -->
+                        <div class="glass-card result-card inactive" id="resultCard">
+                            <div class="result-placeholder" id="resultPlaceholder">
+                                <div class="placeholder-icon">
+                                    <i data-lucide="cpu" class="pulse-animation"></i>
+                                </div>
+                                <h4>Awaiting Input</h4>
+                                <p>Provide details in the left form and hit calculate to trigger the Decision Tree Regressor.</p>
+                            </div>
+                            
+                            <div class="result-display" id="resultDisplay" style="display: none;">
+                                <div class="result-header">
+                                    <span class="prediction-label">Estimated Salary</span>
+                                    <span class="salary-tier-badge" id="salaryTier">High Income Tier</span>
+                                </div>
+                                
+                                <div class="salary-display-container">
+                                    <span class="currency-symbol">$</span>
+                                    <h1 class="salary-amount" id="predictedSalary">0</h1>
+                                    <span class="per-year">/ year</span>
+                                </div>
+                                
+                                <div class="result-analytics-grid">
+                                    <div class="analytic-item">
+                                        <span class="label">Job Comparison</span>
+                                        <div class="value-comparison">
+                                            <i data-lucide="arrow-up-right" class="trend-icon-up" id="trendIcon"></i>
+                                            <span class="value" id="globalCompareText">+15.4%</span>
+                                        </div>
+                                        <span class="caption">vs Global Average</span>
+                                    </div>
+                                    <div class="analytic-item">
+                                        <span class="label">Job Title Average</span>
+                                        <h4 class="value" id="roleAvgSalary">$110,000</h4>
+                                        <span class="caption">For this specific role</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="gauge-container">
+                                    <div class="gauge-label">
+                                        <span>Salary Placement</span>
+                                        <span id="gaugePercentage">65%</span>
+                                    </div>
+                                    <div class="gauge-track">
+                                        <div class="gauge-bar" id="gaugeBar"></div>
+                                    </div>
+                                    <div class="gauge-ranges">
+                                        <span>$0</span>
+                                        <span>$125K</span>
+                                        <span>$250K</span>
+                                    </div>
+                                </div>
+
+                                <div class="prediction-info-box">
+                                    <i data-lucide="info"></i>
+                                    <p>Based on our Decision Tree, your combination of experience, job title, and educational background maps to this specific prediction leaf in the model.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= INSIGHTS TAB ================= -->
+                <section id="insightsPanel" class="tab-panel">
+                    <div class="insights-grid">
+                        <div class="glass-card col-span-2">
+                            <div class="card-header">
+                                <h3>Model Feature Importance</h3>
+                                <p>How much weight the Decision Tree assigns to each variable when predicting salaries.</p>
+                            </div>
+                            <div class="chart-container-large">
+                                <canvas id="featureImportanceChartLarge"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card">
+                            <div class="card-header">
+                                <h3>Education Level Impact</h3>
+                                <p>Average annual salaries grouped by educational level.</p>
+                            </div>
+                            <div class="chart-container-large">
+                                <canvas id="educationChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="glass-card col-span-3">
+                            <div class="card-header">
+                                <h3>Decision Tree Visualization</h3>
+                                <p>The structure of the Decision Tree Regressor plotted during model training.</p>
+                            </div>
+                            <div class="tree-img-container">
+                                <img src="/decision_tree.png" alt="Decision Tree Structure" class="tree-image" id="treeImage">
+                                <div class="tree-overlay">
+                                    <button class="btn btn-secondary" onclick="openFullscreenTree()">
+                                        <i data-lucide="maximize"></i>
+                                        <span>View Full Resolution</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= DATA EXPLORER TAB ================= -->
+                <section id="explorerPanel" class="tab-panel">
+                    <div class="glass-card table-card">
+                        <div class="table-toolbar">
+                            <div class="search-box">
+                                <i data-lucide="search"></i>
+                                <input type="text" id="tableSearchInput" placeholder="Search by Job, Education, or Gender...">
+                            </div>
+                            
+                            <div class="toolbar-actions">
+                                <div class="records-per-page">
+                                    <span>Show</span>
+                                    <select id="recordsPerPageSelect">
+                                        <option value="10" selected>10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                    <span>rows</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="data-table" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Age</th>
+                                        <th>Gender</th>
+                                        <th>Education Level</th>
+                                        <th>Job Title</th>
+                                        <th>Years of Experience</th>
+                                        <th>Salary ($)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    <!-- Dynamic rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="table-pagination">
+                            <div class="pagination-info" id="paginationInfo">
+                                Showing 1 to 10 of 324 records
+                            </div>
+                            <div class="pagination-buttons" id="paginationButtons">
+                                <!-- Dynamic buttons -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Fullscreen Image Modal -->
+    <div class="modal" id="treeModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeFullscreenTree()">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-body">
+                <img src="/decision_tree.png" alt="Decision Tree Structure Fullscreen">
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
