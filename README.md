@@ -18,10 +18,15 @@ Education Level vs. Salary distribution chart.
 Direct visualization of the trained Decision Tree structure.
 Data Explorer: Searchable, filterable, and paginated interactive data table displaying the underlying project dataset.
 Premium UI System: Sleek glassmorphism cards, micro-animations, Lucide Icons, and an animated Dark/Light mode theme switcher.
+
+<br>
 🛠️ Tech Stack
 Machine Learning & Processing: Python, Scikit-Learn, Pandas, NumPy, Pickle
 Backend Server: Flask (Python Web Server), Gunicorn (Production WSGI Server)
 Frontend Interface: Semantic HTML5, Vanilla CSS3 (Custom Variables & Gradients), JavaScript (ES6+ SPA routing, API integration, and Autocomplete), Chart.js (Data Visualizations), Lucide Icons (SVGs)
+
+<br>
+
 📂 Project Structure
 text
 
@@ -41,6 +46,10 @@ text
 ├── decision_tree_model.pkl     # Trained Decision Tree Regressor model weights
 ├── requirements.txt            # Python dependencies list
 └── server.py                   # Flask backend web server
+
+
+<br> 
+
 💻 Local Installation & Setup
 Follow these steps to run the application locally on your machine:
 
@@ -79,5 +88,9 @@ This project is configured to run out-of-the-box on Hugging Face Spaces using th
 Create a new Space on Hugging Face and select Docker as the SDK (use Blank template).
 Upload the project files (excluding .venv) directly via the files tab or push using Git.
 The Space will automatically build and run the application.
+
+<br > 
+
+
 📄 License
 This project is licensed under the MIT License.
